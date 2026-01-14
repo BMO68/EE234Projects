@@ -1,4 +1,4 @@
-domain_path: A:\WSU\EE_234\Projects\Project1\platform1\zynq_fsbl\zynq_fsbl_bsp
+domain_path: C:\WSU\EE234\EE234Projects\Project1\platform1\zynq_fsbl\zynq_fsbl_bsp
 app_src_dir: A:\AMD\2025.2\Vitis\data\embeddedsw\lib\sw_apps\zynq_fsbl
 template: zynq_fsbl
 lang: c

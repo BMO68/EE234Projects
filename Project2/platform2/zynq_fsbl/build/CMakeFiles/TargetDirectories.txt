@@ -1,0 +1,4 @@
+C:/WSU/EE234/EE234Projects/Project2/platform2/zynq_fsbl/build/CMakeFiles/fsbl.elf.dir
+C:/WSU/EE234/EE234Projects/Project2/platform2/zynq_fsbl/build/CMakeFiles/print_build_info.dir
+C:/WSU/EE234/EE234Projects/Project2/platform2/zynq_fsbl/build/CMakeFiles/edit_cache.dir
+C:/WSU/EE234/EE234Projects/Project2/platform2/zynq_fsbl/build/CMakeFiles/rebuild_cache.dir

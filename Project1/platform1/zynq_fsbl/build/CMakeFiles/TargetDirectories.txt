@@ -1,4 +1,4 @@
-A:/WSU/EE_234/Projects/Project1/platform1/zynq_fsbl/build/CMakeFiles/fsbl.elf.dir
-A:/WSU/EE_234/Projects/Project1/platform1/zynq_fsbl/build/CMakeFiles/print_build_info.dir
-A:/WSU/EE_234/Projects/Project1/platform1/zynq_fsbl/build/CMakeFiles/edit_cache.dir
-A:/WSU/EE_234/Projects/Project1/platform1/zynq_fsbl/build/CMakeFiles/rebuild_cache.dir
+C:/WSU/EE234/EE234Projects/Project1/platform1/zynq_fsbl/build/CMakeFiles/fsbl.elf.dir
+C:/WSU/EE234/EE234Projects/Project1/platform1/zynq_fsbl/build/CMakeFiles/print_build_info.dir
+C:/WSU/EE234/EE234Projects/Project1/platform1/zynq_fsbl/build/CMakeFiles/edit_cache.dir
+C:/WSU/EE234/EE234Projects/Project1/platform1/zynq_fsbl/build/CMakeFiles/rebuild_cache.dir

@@ -1,4 +1,4 @@
-# Install script for directory: A:/WSU/EE_234/Projects/Project1/platform1/ps7_cortexa9_0/standalone_ps7_cortexa9_0/bsp/libsrc/gpiops/src
+# Install script for directory: C:/WSU/EE234/EE234Projects/Project1/platform1/ps7_cortexa9_0/standalone_ps7_cortexa9_0/bsp/libsrc/gpiops/src
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -34,6 +34,6 @@ endif()
 
 # Set default install directory permissions.
 if(NOT DEFINED CMAKE_OBJDUMP)
-  set(CMAKE_OBJDUMP "A:/AMD/2025.2/Vitis/gnu/aarch32/nt/gcc-arm-none-eabi/bin/arm-none-eabi-objdump.exe")
+  set(CMAKE_OBJDUMP "C:/AMDDesignTools/2025.2/Vitis/gnu/aarch32/nt/gcc-arm-none-eabi/bin/arm-none-eabi-objdump.exe")
 endif()
 
