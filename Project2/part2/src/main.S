@@ -9,24 +9,33 @@
 main:
 	blinky_loop:
 		bl led0_toggle
-		movw r0,#0 @load lower bits of r0 with 0
-		movt r0,#0x5000 @load top 16 bits with 0x3000
-		@ Note: the above two instructions can be replaced with the psuedoinstruction
-		@ ldr r0,=0x30000000. The assembler will replace the psuedoinstruction with the
-		@ two mov instructions.
+		bl switch_count
+		
+		ldr r0,[r0]
+		lsl r0,#20
+		mov r1,r0
+		
 		bl delay 
 	b blinky_loop
 
+mov r7,#1
+swi 0
+
 delay:
-	subs r0,r0,#1
+	subs r1,r1,#1
 	bne delay
 	bx lr
 
-     led0_toggle:
-        ldr r1,=LEDS
-        ldr r0,[r1]
-        eor r0,r0,#1
-        str r0, [r1]
-    bx lr
+led0_toggle:
+    ldr r1,=LEDS
+    ldr r0,[r1]
+    eor r0,r0,#1
+	str r0, [r1]
+	bx lr
+
+switch_count:
+	ldr r0,=SWITCHES
+	ldr r0,[r0]
+	bx lr
 
 .end
