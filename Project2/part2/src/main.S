@@ -7,10 +7,12 @@
 
 @blinks the led!
 main:
+
 	blinky_loop:
 		bl led0_toggle
 		bl switch_count
-		
+
+		ldr r0,=SWITCHES	
 		ldr r0,[r0]
 		lsl r0,#20
 		mov r1,r0
