@@ -22,20 +22,18 @@ main:
     loop:
         
         LDR r0, =BUTTONS
-        LDR r2, [r0]
+        LDR r0, [r0]
         MOV r1, #1
-        CMP r2, r1
-        BEQ G_On
-
-        LDR r0, =G_EN
-        MOV r1, #0x0
-        STR r1, [r0]
+        CMP r0, r1
+        BEQ G_TOGGLE
+        
     b loop     
     
-        G_On:
-            LDR r0, =G_EN
-            LDR r1, =1
-            STR r1, [r0]
+        G_TOGGLE:
+            ldr r0,=G_EN
+            ldr r1,[r0]
+            eor r1,r1,#1
+            str r1,[r0]
         b loop
         
 .end
