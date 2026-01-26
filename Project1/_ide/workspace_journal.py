@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 # 2026-01-22T09:25:40.707830200
+=======
+# 2026-01-21T20:42:58.867378200
+>>>>>>> c08ab5e82ed0c62da43b13c467665e75ac67c012
 import vitis
 
 client = vitis.create_client()

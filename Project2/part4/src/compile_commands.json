@@ -1,0 +1,7 @@
+[
+{
+  "directory": "A:/WSU/EE_234/Projects/Project2/part4/build",
+  "command": "A:\\AMD\\2025.2\\Vitis\\gnu\\aarch32\\nt\\gcc-arm-none-eabi\\bin\\arm-none-eabi-gcc.exe -IA:/WSU/EE_234/Projects/Project2/part4/src  -DSDT -mcpu=cortex-a9 -mfpu=vfpv3 -mfloat-abi=hard  -MMD -MP -specs=A:/WSU/EE_234/Projects/Project2/platform2/export/platform2/sw/standalone_ps7_cortexa9_0/Xilinx.spec -IA:/WSU/EE_234/Projects/Project2/platform2/export/platform2/sw/standalone_ps7_cortexa9_0/include -o CMakeFiles\\part4.elf.dir\\main.S.obj -c A:\\WSU\\EE_234\\Projects\\Project2\\part4\\src\\main.S",
+  "file": "A:\\WSU\\EE_234\\Projects\\Project2\\part4\\src\\main.S"
+}
+]
