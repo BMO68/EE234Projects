@@ -37,7 +37,6 @@
 BRG_ON: 
     mov r1,#1
     str r1,[r0]
-    add r14,r14,#4
 bx lr
 
 
@@ -84,62 +83,55 @@ bx lr
 
 main:
 
-    ldr r0,=SWITCHES
-    ldr r0,[r0]
-    bl SWITCH_SORT
-
-    @end blue led
+    @start blue led
     ldr r0,=B1_PERIOD @set B frequency
     mov r1,#0b11111111
     bl SET_PWM_FREQ
     
+    mov r1,#0b11111111
     ldr r0,=B1_WIDTH @set B width
-    mov r1,r4
+    B1_WIDTH:
     bl SET_PWM_WINDOW
+    sub r1,r1,#1
+    cmp r1,#0
+    bne B1_WIDTH
 
     ldr r0,=B1_EN
-    and r1,r3,#0b001
-    cmp r1,#0
-    beq skip_one
     bl BRG_ON
-    skip_one:
-    bl BRG_OFF
     @end blue led
 
-    @start green 
-    ldr r0,=G1_PERIOD @set B frequency
+    @start green
+    ldr r0,=G1_PERIOD @set G frequency
     mov r1,#0b11111111
     bl SET_PWM_FREQ
     
-    ldr r0,=G1_WIDTH @set B width
-    mov r1,r4
+    mov r1,#0b1111111
+    G1_WIDTH:
+    ldr r0,=G1_WIDTH @set G width
     bl SET_PWM_WINDOW
+    sub r1,r1,#1
+    cmp r1,#0
+    bne G1_WIDTH
 
     ldr r0,=G1_EN
-    and r1,r3,#0b010
-    cmp r1,#0
-    beq skip_two
     bl BRG_ON
-    skip_two:
-    bl BRG_OFF
     @end green
 
-    @start red
-    ldr r0,=R1_PERIOD @set B frequency
+    @start red   
+    ldr r0,=R1_PERIOD @set R frequency
     mov r1,#0b11111111
     bl SET_PWM_FREQ
     
-    ldr r0,=R1_WIDTH @set B width
-    mov r1,r4
+    mov r1,#0b11111111
+    R1_WIDTH:
+    ldr r0,=R1_WIDTH @set R width
     bl SET_PWM_WINDOW
+    sub r1,r1,#1
+    cmp r1,#0
+    bne R1_WIDTH
 
     ldr r0,=R1_EN
-    and r1,r3,#0b100
-    cmp r1,#0
-    beq skip_three
     bl BRG_ON
-    skip_three:
-    bl BRG_OFF
     @end red
 
 b main

@@ -84,11 +84,32 @@ bx lr
 
 main:
 
+    ldr r0,=BUTTONS
+    ldr r0,[r0]
+    cmp r0,#0b100
+    beq BLUE
+    returnFB:
+
+    ldr r0,=BUTTONS
+    ldr r0,[r0]
+    cmp r0,#0b010
+    beq GREEN
+    returnFG:
+
+    ldr r0,=BUTTONS
+    ldr r0,[r0]
+    cmp r0,#0b001
+    beq RED
+    returnFR:
+
+b main
+
+    @start blue led
+    BLUE:
     ldr r0,=SWITCHES
     ldr r0,[r0]
     bl SWITCH_SORT
-
-    @end blue led
+    
     ldr r0,=B1_PERIOD @set B frequency
     mov r1,#0b11111111
     bl SET_PWM_FREQ
@@ -104,17 +125,23 @@ main:
     bl BRG_ON
     skip_one:
     bl BRG_OFF
+    b returnFB
     @end blue led
 
-    @start green 
-    ldr r0,=G1_PERIOD @set B frequency
+    @start green
+    GREEN:
+    ldr r0,=SWITCHES
+    ldr r0,[r0]
+    bl SWITCH_SORT 
+    
+    ldr r0,=G1_PERIOD @set G frequency
     mov r1,#0b11111111
     bl SET_PWM_FREQ
     
-    ldr r0,=G1_WIDTH @set B width
+    ldr r0,=G1_WIDTH @set G width
     mov r1,r4
     bl SET_PWM_WINDOW
-
+    
     ldr r0,=G1_EN
     and r1,r3,#0b010
     cmp r1,#0
@@ -122,14 +149,20 @@ main:
     bl BRG_ON
     skip_two:
     bl BRG_OFF
+    b returnFG
     @end green
 
     @start red
-    ldr r0,=R1_PERIOD @set B frequency
+    RED:
+    ldr r0,=SWITCHES
+    ldr r0,[r0]
+    bl SWITCH_SORT
+    
+    ldr r0,=R1_PERIOD @set G frequency
     mov r1,#0b11111111
     bl SET_PWM_FREQ
     
-    ldr r0,=R1_WIDTH @set B width
+    ldr r0,=R1_WIDTH @set G width
     mov r1,r4
     bl SET_PWM_WINDOW
 
@@ -140,6 +173,7 @@ main:
     bl BRG_ON
     skip_three:
     bl BRG_OFF
+    b returnFR
     @end red
 
 b main
