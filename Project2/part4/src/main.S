@@ -52,28 +52,29 @@ bx lr
 @ set PWM window width
 @ in: r0, pointer to address; r1, immediate value
 @ out: N/A
-SET_PWM_WINDOW:
+SET_PWM_FREQ:
     str r1,[r0]
 bx lr
 
 @ set PWM duty value
 @ in: r0, pointer to address; r1, immediate value
 @ out: N/A
-SET_PWM_DUTY:
+SET_PWM_WINDOW:
     str r1,[r0]
 bx lr
 
 @ grabs and sorts SWITCHES
 @ in: r0, immediate value (of switches)
-@ out: r3, register (upper 4 switches); r4, register (lower 4 switches)
+@ out: r3, register (upper 3 switches); r4, register (lower 5 switches)
 SWITCH_SORT:
 
     @ catching upper 3 switches    
-    mov r3,#0xfffff20
+    mov r3,#0b11100000000
     and r3,r3,r0
+    asr r3,r3,#6
        
-    @ catching lower 5 switches
-    mov r4,#0x0000001f
+    @ catching lower 8 switches
+    mov r4,#0b11111111
     and r4,r4,r0
     
 
@@ -84,8 +85,20 @@ main:
 
     ldr r0,=SWITCHES
     ldr r0,[r0]
-    @SWITCH_SORT
+    bl SWITCH_SORT
 
+    ldr r0,=B1_PERIOD @set B frequency
+    mov r1,#11111111
+    
+    ldr r0,=B1_WIDTH @set B width
+    mov r1,r4
+
+    
+    and r0,r3,#0b1
+    cmp r0,#1
+    ble 
+
+b main
 
 mov r0,#0
 mov r7,#1
