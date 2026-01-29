@@ -4,3 +4,8 @@ import vitis
 client = vitis.create_client()
 client.set_workspace(path="Project2")
 
+vitis.dispose()
+
+comp = client.get_component(name="part1")
+comp.build()
+
