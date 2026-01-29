@@ -9,3 +9,8 @@ vitis.dispose()
 comp = client.get_component(name="part1")
 comp.build()
 
+comp = client.get_component(name="part4")
+status = comp.clean()
+
+comp.build()
+
