@@ -1,0 +1,12 @@
+[
+{
+  "directory": "C:/WSU/EE234/EE234Projects/Project3/part1/build",
+  "command": "C:\\AMDDesignTools\\2025.2\\Vitis\\gnu\\aarch32\\nt\\gcc-arm-none-eabi\\bin\\arm-none-eabi-gcc.exe -IC:/WSU/EE234/EE234Projects/Project3/part1/src -isystem C:/WSU/EE234/EE234Projects/Project3/platform3/export/platform3/sw/standalone_ps7_cortexa9_0/include -isystem C:/AMDDesignTools/2025.2/gnu/aarch32/nt/gcc-arm-none-eabi/x86_64-oesdk-mingw32/usr/lib/arm-xilinx-eabi/gcc/arm-xilinx-eabi/13.3.0/include -isystem C:/AMDDesignTools/2025.2/gnu/aarch32/nt/gcc-arm-none-eabi/x86_64-oesdk-mingw32/usr/lib/arm-xilinx-eabi/gcc/arm-xilinx-eabi/13.3.0/include-fixed -isystem C:/AMDDesignTools/2025.2/Vitis/gnu/aarch32/nt/gcc-arm-none-eabi/aarch32-xilinx-eabi/usr/include  -DSDT -mcpu=cortex-a9 -mfpu=vfpv3 -mfloat-abi=hard  -MMD -MP -specs=C:/WSU/EE234/EE234Projects/Project3/platform3/export/platform3/sw/standalone_ps7_cortexa9_0/Xilinx.spec -IC:/WSU/EE234/EE234Projects/Project3/platform3/export/platform3/sw/standalone_ps7_cortexa9_0/include -Wall -Wextra      -O0  -g3     -U__clang__ -o CMakeFiles\\part1.elf.dir\\main.c.obj -c C:\\WSU\\EE234\\EE234Projects\\Project3\\part1\\src\\main.c",
+  "file": "C:\\WSU\\EE234\\EE234Projects\\Project3\\part1\\src\\main.c"
+},
+{
+  "directory": "C:/WSU/EE234/EE234Projects/Project3/part1/build",
+  "command": "C:\\AMDDesignTools\\2025.2\\Vitis\\gnu\\aarch32\\nt\\gcc-arm-none-eabi\\bin\\arm-none-eabi-gcc.exe -IC:/WSU/EE234/EE234Projects/Project3/part1/src -isystem C:/WSU/EE234/EE234Projects/Project3/platform3/export/platform3/sw/standalone_ps7_cortexa9_0/include -isystem C:/AMDDesignTools/2025.2/gnu/aarch32/nt/gcc-arm-none-eabi/x86_64-oesdk-mingw32/usr/lib/arm-xilinx-eabi/gcc/arm-xilinx-eabi/13.3.0/include -isystem C:/AMDDesignTools/2025.2/gnu/aarch32/nt/gcc-arm-none-eabi/x86_64-oesdk-mingw32/usr/lib/arm-xilinx-eabi/gcc/arm-xilinx-eabi/13.3.0/include-fixed -isystem C:/AMDDesignTools/2025.2/Vitis/gnu/aarch32/nt/gcc-arm-none-eabi/aarch32-xilinx-eabi/usr/include  -DSDT -mcpu=cortex-a9 -mfpu=vfpv3 -mfloat-abi=hard  -MMD -MP -specs=C:/WSU/EE234/EE234Projects/Project3/platform3/export/platform3/sw/standalone_ps7_cortexa9_0/Xilinx.spec -IC:/WSU/EE234/EE234Projects/Project3/platform3/export/platform3/sw/standalone_ps7_cortexa9_0/include -Wall -Wextra      -O0  -g3     -U__clang__ -o CMakeFiles\\part1.elf.dir\\source.c.obj -c C:\\WSU\\EE234\\EE234Projects\\Project3\\part1\\src\\source.c",
+  "file": "C:\\WSU\\EE234\\EE234Projects\\Project3\\part1\\src\\source.c"
+}
+]
