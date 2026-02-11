@@ -38,3 +38,8 @@ comp.build()
 
 comp.build()
 
+comp = client.create_app_component(name="part2",platform = "$COMPONENT_LOCATION/../platform3/export/platform3/platform3.xpfm",domain = "standalone_ps7_cortexa9_0")
+
+comp = client.get_component(name="part2")
+comp.set_app_config(key = "USER_HEADER_SOURCES", values = ["wrapper.h"])
+
