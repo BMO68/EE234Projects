@@ -2,15 +2,22 @@
 
 int main(void)
 {
-
+	SEG_DATA = 0;
+	SEG_CTL = 0x01;
+	SEG_DATA = 0x80808080;
 	for(;;)
 	{
-		if(BTN_DATA&1) //if first button is pressed
-			display_REAL(); //display "rEAL"
-		else
-			display_num(SW_DATA&0xFFF); //display Switch value
+		for(int i = 0; i < 4; i++)
+		{
+
+			uint16_t value = 0xF & Read_Switches()>>(4*i);
+			Display_Number(i, value);
+
+			value = Read_Buttons();
+			Display_Number(0x3, value);
+
+		}
+
 	}
-
-
 	return 1;
 }
