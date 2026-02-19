@@ -21,17 +21,3 @@
 
 //LED
 #define LED *((uint32_t*)0x41210000)
-
-uint16_t ReadButtons(void);
-
-uint16_t ReadSwitches(void);
-
-uint16_t DecodeButtons(uint16_t buttons[]);
-
-void ResetCounter(uint16_t digits[]);
-
-void IncrementCounter(uint16_t digits[], uint16_t switches);
-
-void UpdateCounter(uint16_t digits[]);
-
-void Delay(void);

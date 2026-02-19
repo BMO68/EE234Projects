@@ -26,7 +26,7 @@ uint16_t ReadButtons(void);
 
 uint16_t ReadSwitches(void);
 
-uint16_t DecodeButtons(uint16_t buttons[]);
+void DecodeButtons(uint16_t buttons[]);
 
 void ResetCounter(uint16_t digits[]);
 
