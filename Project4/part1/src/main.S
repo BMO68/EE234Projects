@@ -1,5 +1,5 @@
 .text
-.global
+.global main
 
 
 main:
