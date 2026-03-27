@@ -109,7 +109,6 @@ void display_ms(uint32_t ms)
 
 uint32_t random_delay_ms(void)
 {
-    /* use free-running TTC counter as entropy source */
     uint32_t raw = TTCO_CNTVAL_1;
     return 1000U + (raw % 9000U);
 }
