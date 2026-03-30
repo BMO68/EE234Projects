@@ -35,3 +35,76 @@ comp.build()
 
 comp.build()
 
+comp = client.create_app_component(name="part3",platform = "$COMPONENT_LOCATION/../platform4/export/platform4/platform4.xpfm",domain = "standalone_ps7_cortexa9_0")
+
+comp = client.get_component(name="part3")
+comp.set_app_config(key = "USER_HEADER_SOURCES", values = ["main.S"])
+
+comp.set_app_config(key = "USER_HEADER_SOURCES", values = ["main.S", "UART.S"])
+
+comp = client.get_component(name="part3")
+comp.build()
+
+comp = client.get_component(name="part3")
+comp.set_app_config(key = "USER_COMPILE_SOURCES", values = ["main.S"])
+
+comp.set_app_config(key = "USER_COMPILE_SOURCES", values = ["main.S", "UART.S"])
+
+comp = client.get_component(name="part3")
+comp.build()
+
+comp.build()
+
+comp.build()
+
+comp.build()
+
+comp = client.create_app_component(name="part4",platform = "$COMPONENT_LOCATION/../platform4/export/platform4/platform4.xpfm",domain = "standalone_ps7_cortexa9_0")
+
+comp = client.get_component(name="part4")
+comp.build()
+
+comp.build()
+
+comp.build()
+
+comp.build()
+
+comp = client.get_component(name="part4")
+comp.set_app_config(key = "USER_COMPILE_SOURCES", values = ["main.S"])
+
+comp.set_app_config(key = "USER_COMPILE_SOURCES", values = ["main.S", "UART.S"])
+
+comp = client.get_component(name="part4")
+comp.build()
+
+comp.build()
+
+comp.build()
+
+comp.build()
+
+comp.build()
+
+comp.build()
+
+comp.build()
+
+comp.build()
+
+comp.build()
+
+comp.build()
+
+comp.build()
+
+comp.build()
+
+comp.build()
+
+comp.build()
+
+comp.build()
+
+comp.build()
+
