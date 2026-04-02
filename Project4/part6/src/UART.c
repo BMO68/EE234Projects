@@ -26,9 +26,14 @@ void configure_uart1(void){
 }
 
 void receive_string(char str[]) {
-    for(int i = 0; str[i] != 0x0D && str[i] != 0x0A && i < 128;) {
-        if(UART1_FIFO != 0x00) {
-            str[i] = UART1_FIFO;
+    for(int i = 0; i < 128;) {
+        str[i] = UART1_FIFO;
+
+        if(str[i] == 0x0D || str[i] == 0xA) {
+            str[i] = 0x00;
+            return;
+        }
+        if(str[i] != 0x00) {
             i++;
         }
     }

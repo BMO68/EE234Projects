@@ -9,6 +9,5 @@ int main(){
     receive_string(str);
 
     send_string(str);
-
    return 1; 
 }
