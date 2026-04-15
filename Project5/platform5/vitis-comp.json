@@ -3,7 +3,7 @@
   "type": "PLATFORM",
   "configuration": {
     "description": "",
-    "xsa": "C:/WSU/EE234/blackboard.xsa",
+    "xsa": "A:/WSU/EE_234/blackboard.xsa",
     "xsaPathInPlatform": "platform5/hw/blackboard.xsa",
     "emulationXsa": "",
     "emulationXsaPathInPlatform": "",
