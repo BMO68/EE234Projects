@@ -2,12 +2,19 @@
 
 int main(){
 
-    char str[128];
-
     configure_uart1();
 
-    receive_string(str);
+    disable_arm_interrupts();
 
-    send_string(str);
+    /* register handler into IRQ slot (exception ID 5) */
+    Xil_ExceptionRegisterHandler(5, my_handler, NULL);
+
+    configure_gic_uart1();
+    configure_uart1_interrupt();
+
+    enable_arm_interrupts();
+
+    for(;;);
+    
    return 1; 
 } 

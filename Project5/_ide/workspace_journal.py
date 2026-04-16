@@ -1,31 +1,14 @@
-# 2026-04-14T16:44:22.266281600
+# 2026-04-16T06:42:02.424702900
 import vitis
 
 client = vitis.create_client()
 client.set_workspace(path="Project5")
 
-platform = client.get_component(name="platform5")
-domain = platform.get_domain(name="standalone_ps7_cortexa9_0")
+comp = client.get_component(name="part1")
+comp.build()
 
-status = domain.regenerate()
-
-domain = platform.get_domain(name="zynq_fsbl")
-
-status = domain.set_config(option = "os", param = "standalone_xpm_support", value = "true")
-
-status = domain.set_config(option = "os", param = "standalone_xpm_support", value = "false")
-
-status = client.rescan_embedded_sw_repo()
-
-status = platform.update_hw(hw_design = "$COMPONENT_LOCATION/../../../blackboard.xsa")
-
-status = platform.build()
-
-client.delete_component(name="platform5")
-
-platform = client.create_platform_component(name = "platform5",hw_design = "$COMPONENT_LOCATION/../../../blackboard.xsa",os = "standalone",cpu = "ps7_cortexa9_0",domain_name = "standalone_ps7_cortexa9_0",compiler = "gcc")
-
-status = platform.build()
+comp = client.get_component(name="part1")
+comp.set_app_config(key = "USER_HEADER_SOURCES", values = ["wrapper.h"])
 
 comp = client.get_component(name="part1")
 comp.build()
@@ -33,6 +16,66 @@ comp.build()
 comp.build()
 
 comp.build()
+
+comp.build()
+
+comp.build()
+
+comp.build()
+
+comp.build()
+
+comp.build()
+
+comp.build()
+
+status = comp.clean()
+
+comp.build()
+
+comp = client.create_app_component(name="part2",platform = "$COMPONENT_LOCATION/../platform5/export/platform5/platform5.xpfm",domain = "standalone_ps7_cortexa9_0")
+
+comp = client.get_component(name="part2")
+comp.set_app_config(key = "USER_COMPILE_SOURCES", values = ["soure.c", "wrapper.h"])
+
+comp.set_app_config(key = "USER_COMPILE_SOURCES", values = ["source.c", "wrapper.h"])
+
+comp.set_app_config(key = "USER_COMPILE_SOURCES", values = ["source.c", "wrapper.h", "main.c"])
+
+comp.set_app_config(key = "USER_COMPILE_SOURCES", values = ["source.c", "main.c"])
+
+comp.set_app_config(key = "USER_HEADER_SOURCES", values = ["wrapper.h"])
+
+comp = client.get_component(name="part2")
+comp.build()
+
+comp.build()
+
+comp.build()
+
+comp = client.create_app_component(name="part3",platform = "$COMPONENT_LOCATION/../platform5/export/platform5/platform5.xpfm",domain = "standalone_ps7_cortexa9_0")
+
+comp = client.get_component(name="part3")
+comp.build()
+
+comp = client.get_component(name="part3")
+comp.set_app_config(key = "USER_HEADER_SOURCES", values = ["wrapper.h"])
+
+comp = client.get_component(name="part3")
+comp.build()
+
+comp = client.create_app_component(name="part4",platform = "$COMPONENT_LOCATION/../platform5/export/platform5/platform5.xpfm",domain = "standalone_ps7_cortexa9_0")
+
+comp = client.get_component(name="part4")
+comp.build()
+
+comp = client.get_component(name="part4")
+comp.set_app_config(key = "USER_HEADER_SOURCES", values = ["wrapper.h"])
+
+comp = client.get_component(name="part4")
+comp.build()
+
+status = comp.clean()
 
 comp.build()
 
