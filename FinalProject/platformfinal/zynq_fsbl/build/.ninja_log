@@ -1,0 +1,16 @@
+# ninja log v5
+46	188	0	CMakeFiles/print_build_info	d9a068c378395cdc
+46	188	0	A:/WSU/EE_234/Projects/FinalProject/platformfinal/zynq_fsbl/build/CMakeFiles/print_build_info	d9a068c378395cdc
+189	283	7990689829773589	CMakeFiles/fsbl.elf.dir/fsbl_handoff.S.obj	3cbc0e944425e428
+195	344	7990689830619706	CMakeFiles/fsbl.elf.dir/fsbl_hooks.c.obj	6aa424da957626cc
+215	345	7990689830619706	CMakeFiles/fsbl.elf.dir/md5.c.obj	2d025b1424465124
+255	353	7990689830754195	CMakeFiles/fsbl.elf.dir/rsa.c.obj	ea33673f392fde38
+221	366	7990689830891889	CMakeFiles/fsbl.elf.dir/nand.c.obj	e38ab084e6e05027
+201	370	7990689830897552	CMakeFiles/fsbl.elf.dir/image_mover.c.obj	c67151d4ca9dfead
+208	375	7990689830968598	CMakeFiles/fsbl.elf.dir/main.c.obj	ef9e37742de764f9
+229	378	7990689830993674	CMakeFiles/fsbl.elf.dir/nor.c.obj	9063ef06267b7071
+236	400	7990689831218975	CMakeFiles/fsbl.elf.dir/pcap.c.obj	df459039ccb4c06f
+264	410	7990689831331857	CMakeFiles/fsbl.elf.dir/sd.c.obj	3ae896b780b8da07
+246	412	7990689831351910	CMakeFiles/fsbl.elf.dir/qspi.c.obj	116961d74d769038
+273	425	7990689831479976	CMakeFiles/fsbl.elf.dir/ps7_init.c.obj	e729b2bb49adb15d
+426	776	7990689833640902	fsbl.elf	acaca90b4c70ee02
