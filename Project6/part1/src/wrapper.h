@@ -3,60 +3,62 @@
 
 #include <stdint.h>
 
-/* ---------------- UART1 ---------------- */
-#define UART1_BASE      0xE0001000U
-#define UART1_CR        (*(volatile uint32_t *)(UART1_BASE + 0x00))
-#define UART1_MR        (*(volatile uint32_t *)(UART1_BASE + 0x04))
-#define UART1_BAUDGEN   (*(volatile uint32_t *)(UART1_BASE + 0x18))
-#define UART1_SR        (*(volatile uint32_t *)(UART1_BASE + 0x2C))
-#define UART1_FIFO      (*(volatile uint32_t *)(UART1_BASE + 0x30))
-#define UART1_BAUDDIV   (*(volatile uint32_t *)(UART1_BASE + 0x34))
+/*----------------------------SPI Stuff---------------------------*/
+#define SPI0_BASE       0xE0006000
+#define SPI_CR          (*(volatile uint32_t *)(SPI0_BASE + 0x00))//configuration register
+#define SPI_SR          (*(volatile uint32_t *)(SPI0_BASE + 0x04))//interrupt status register (FIFO)
+#define SPI_IER         (*(volatile uint32_t *)(SPI0_BASE + 0x08))//enable interrupt sources
+#define SPI_IDR         (*(volatile uint32_t *)(SPI0_BASE + 0x0C))//disable interrupt sources
+#define SPI_IMR         (*(volatile uint32_t *)(SPI0_BASE + 0x10))//mask bits for interrupt sources
+#define SPI_ER          (*(volatile uint32_t *)(SPI0_BASE + 0x14))//spi controller eable
+#define SPI_DR          (*(volatile uint32_t *)(SPI0_BASE + 0x18))//set various intra-frame delays
+#define SPI_TXD         (*(volatile uint32_t *)(SPI0_BASE + 0x1C))//spi write data (fifo)
+#define SPI_RXD         (*(volatile uint32_t *)(SPI0_BASE + 0x20))//spi read data (fifo)
 
-#define BGEN_115200     0x7C
-#define BDIV_115200     6
-
-/* ---------------- SLCR / SPI0 ---------------- */
+// reset the spi module by writing to zynq's system level control registers block
+//SLCRs are protected registers that can only be accessed after they are "unlocked"
 #define SLCR_LOCK       (*(volatile uint32_t *)0xF8000004)
 #define SLCR_UNLOCK     (*(volatile uint32_t *)0xF8000008)
 #define SLCR_SPI_RST    (*(volatile uint32_t *)0xF800021C)
+#define UNLOCK_KEY      0xDF0D
+#define LOCK_KEY        0x767B
 
-#define UNLOCK_KEY      0x0000DF0D
-#define LOCK_KEY        0x0000767B
+// LSM9DS1 register
+#define WHO_AM_I_REG    0x0F //ID register returns 0x68
 
-#define SPI0_BASE       0xE0006000U
-#define SPI0_CR         (*(volatile uint32_t *)(SPI0_BASE + 0x00))
-#define SPI0_SR         (*(volatile uint32_t *)(SPI0_BASE + 0x04))
-#define SPI0_ER         (*(volatile uint32_t *)(SPI0_BASE + 0x14))
-#define SPI0_TXD        (*(volatile uint32_t *)(SPI0_BASE + 0x1C))
-#define SPI0_RXD        (*(volatile uint32_t *)(SPI0_BASE + 0x20))
+// Slave select encodings for SPI_CR[13:10]
+#define SS_NONE  0xF
+#define SS_AG    0xE   // accelerometer/gyro (SS0)
+#define SS_MAG   0xD   // magnetometer (SS1)
 
-/* SPI status bits */
-#define SPI_SR_RN           (1U << 4)   /* RX FIFO not empty */
-#define SPI_SR_TN           (1U << 2)   /* TX FIFO not full  */
+/*----------------------------UART Stuff---------------------------*/
+#include <stdio.h>
+#include <string.h>
 
-/* SPI control bits */
-#define SPI_CR_MSTREN       (1U << 0)
-#define SPI_CR_CPOL         (1U << 1)
-#define SPI_CR_CPHA         (1U << 2)
-#define SPI_CR_BAUDDIV_4    (4U << 3)
-#define SPI_CR_SS_MASK      (0xFU << 10)
-#define SPI_CR_SS_NONE      (0xFU << 10)
-#define SPI_CR_SS0          (0xEU << 10)   /* 1110 selects slave 0 */
-#define SPI_CR_SS1          (0xDU << 10)   /* 1101 selects slave 1 */
-#define SPI_CR_MANSTRTEN    (1U << 15)
-#define SPI_CR_MANSTRT      (1U << 16)
+#define LED_CTL			0x4BB00000
+#define UART1_CR		0xE0001000
+#define UART1_MR		0xE0001004
+#define UART1_BAUDGEN	0xE0001018
+#define UART1_BAUDDIV	0xE0001034
+#define UART1_SR 		0xE000102C
+#define UART1_FIFO		0xE0001030
+#define UART1_IER *((volatile uint32_t *) 0xE0001008)  // Interrupt Enable Register
+#define UART1_RXTG *((volatile uint32_t *) 0xE0001020)  // RX Trigger Register
 
-/* LSM9DS1 register addresses */
-#define WHO_AM_I_ADDR       0x0F
+#define UART1_INT_ID 82
 
-void conf_uart1_115200(void);
-void putc_uart1(char c);
-void putst_uart1(const char *s);
-void byte_to_hex_str(uint8_t val, char *str);
+extern void reset_uart1();
 
-void reset_SPI0(void);
-void init_SPI0(void);
-uint8_t acc_gyro_read(uint8_t address);
-uint8_t mag_read(uint8_t address);
+void configure_uart1();
+
+char uart1_getchar();
+
+void uart1_sendchar(char data);
+
+void uart1_sendstr(char buffer[]);
+
+int uart1_getln(char buffer[], int max);
+
+void uart1_sendint(int value);
 
 #endif

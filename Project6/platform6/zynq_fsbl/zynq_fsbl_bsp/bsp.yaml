@@ -1,7 +1,7 @@
 sdt: hw_artifacts/ps7_cortexa9_0_baremetal.dts
 family: Zynq
 path: A:\WSU\EE_234\Projects\Project6\platform6\zynq_fsbl\zynq_fsbl_bsp
-config: None
+config: default
 os: standalone
 os_info:
   standalone:

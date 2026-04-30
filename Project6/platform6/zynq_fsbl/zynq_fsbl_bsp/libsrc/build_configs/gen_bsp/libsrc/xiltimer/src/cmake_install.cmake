@@ -51,14 +51,14 @@ endif()
 
 if(CMAKE_INSTALL_COMPONENT STREQUAL "Unspecified" OR NOT CMAKE_INSTALL_COMPONENT)
   list(APPEND CMAKE_ABSOLUTE_DESTINATION_FILES
-   "A:/WSU/EE_234/Projects/Project6/platform6/zynq_fsbl/zynq_fsbl_bsp/include/../include")
+   "A:\WSU\EE_234\Projects\Project6\platform6\zynq_fsbl\zynq_fsbl_bsp\include/../include")
   if(CMAKE_WARN_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(WARNING "ABSOLUTE path INSTALL DESTINATION : ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
   if(CMAKE_ERROR_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(FATAL_ERROR "ABSOLUTE path INSTALL DESTINATION forbidden (by caller): ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
-  file(INSTALL DESTINATION "A:/WSU/EE_234/Projects/Project6/platform6/zynq_fsbl/zynq_fsbl_bsp/include/.." TYPE DIRECTORY MESSAGE_LAZY FILES "A:/WSU/EE_234/Projects/Project6/platform6/zynq_fsbl/zynq_fsbl_bsp/libsrc/build_configs/gen_bsp/include")
+  file(INSTALL DESTINATION "A:\WSU\EE_234\Projects\Project6\platform6\zynq_fsbl\zynq_fsbl_bsp\include/.." TYPE DIRECTORY MESSAGE_LAZY FILES "A:/WSU/EE_234/Projects/Project6/platform6/zynq_fsbl/zynq_fsbl_bsp/libsrc/build_configs/gen_bsp/include")
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)

@@ -1,131 +1,169 @@
+
 #include "wrapper.h"
 
-static void delay_cycles(volatile uint32_t count);
-
-static void delay_cycles(volatile uint32_t count)
-{
-    while (count--) {;}
+/*-------------------------------SPI Stuff---------------------------------*/
+void wait_tx_not_full(void) {
+    while ((SPI_SR & (1 << 2)) == 0);   // TN bit
 }
 
-/* ---------------- UART1 ---------------- */
-
-void conf_uart1_115200(void)
-{
-    UART1_CR = 0x03;              /* reset TX/RX */
-    while (UART1_CR & 0x03) {;}
-
-    UART1_MR = 0x20;              /* 8-bit, no parity, 1 stop */
-    UART1_BAUDGEN = BGEN_115200;
-    UART1_BAUDDIV = BDIV_115200;
-    UART1_CR = 0x14;              /* enable TX and RX */
+void wait_rx_not_empty(void) {
+    while ((SPI_SR & (1 << 4)) == 0);   // RN bit
 }
 
-void putc_uart1(char c)
-{
-    while (UART1_SR & 0x10U) {;}  /* wait while TX FIFO full */
-    UART1_FIFO = (uint32_t)c;
-}
-
-void putst_uart1(const char *s)
-{
-    while (*s != '\0')
-    {
-        putc_uart1(*s++);
-    }
-}
-
-static char nibble_to_hex(uint8_t val)
-{
-    val &= 0xF;
-    return (val > 9) ? (char)(val + ('A' - 10)) : (char)(val + '0');
-}
-
-void byte_to_hex_str(uint8_t val, char *str)
-{
-    str[0] = nibble_to_hex((val >> 4) & 0xF);
-    str[1] = nibble_to_hex(val & 0xF);
-    str[2] = '\0';
-}
-
-/* ---------------- SPI0 ---------------- */
-
-void reset_SPI0(void)
-{
+void reset_SPI() {
     SLCR_UNLOCK = UNLOCK_KEY;
-    SLCR_SPI_RST = 0x0000000F;
-    delay_cycles(2000);
-    SLCR_SPI_RST = 0x00000000;
+    SLCR_SPI_RST = 0xF;
+    for (volatile int i = 0; i < 1000; i++);
+    SLCR_SPI_RST = 0;
     SLCR_LOCK = LOCK_KEY;
 }
 
-static void spi_flush_rx(void)
-{
-    while (SPI0_SR & SPI_SR_RN)
-    {
-        (void)SPI0_RXD;
-    }
+void init_SPI0() {
+    reset_SPI();
+
+    SPI_ER = 0;
+
+    uint32_t cfg = 0;
+    cfg |= (1 << 0);     // M = 1
+    cfg |= (1 << 1);     // PL/CPOL = 1
+    cfg |= (1 << 2);     // PH/CPHA
+    cfg |= (4 << 3);     // BAUDDIV = 4
+    cfg |= (0 << 8);     // CK = 0
+    cfg |= (0 << 9);     // ED = 0
+    cfg |= (SS_NONE << 10); // SS = 1111
+    cfg |= (1 << 14);    // CS = 1
+    cfg |= (0 << 15);    // EN = 0
+    cfg |= (0 << 16);    // MS = 0
+    cfg |= (1 << 17);    // MF = 1
+
+    SPI_CR = cfg;
+
+    SPI_ER = 1;
 }
 
-void init_SPI0(void)
-{
-    SPI0_ER = 0x00;
+uint16_t spi_read16(uint32_t ss, uint8_t reg) {
 
-    SPI0_CR =
-        SPI_CR_MSTREN |
-        SPI_CR_CPOL |
-        SPI_CR_CPHA |
-        SPI_CR_BAUDDIV_4 |
-        SPI_CR_SS_NONE;
+    SPI_CR = (SPI_CR & ~(0xF << 10)) | (ss << 10);
 
-    SPI0_ER = 0x01;
-    spi_flush_rx();
-}
+    uint8_t cmd = 0x80 | (reg & 0x7F);
 
-static uint8_t spi_read_two_byte_transaction(uint8_t cmd, uint32_t ss_bits)
-{
-    uint8_t junk, data;
-    volatile int timeout;
+    wait_tx_not_full();
 
-    spi_flush_rx();
+    SPI_TXD = cmd;
 
-    SPI0_CR = (SPI0_CR & ~SPI_CR_SS_MASK) | ss_bits;
+    wait_tx_not_full();
+    SPI_TXD = 0x00;
 
-    timeout = 1000000;
-    while (!(SPI0_SR & SPI_SR_TN) && --timeout) {;}
-    if (timeout == 0) return 0xFF;
-    SPI0_TXD = cmd;
+    // Read two bytes
+    wait_rx_not_empty();
+    volatile uint8_t throwaway = SPI_RXD;
 
-    timeout = 1000000;
-    while (!(SPI0_SR & SPI_SR_TN) && --timeout) {;}
-    if (timeout == 0) return 0xFF;
-    SPI0_TXD = 0x00;
+    wait_rx_not_empty();
+    uint8_t data = SPI_RXD;
 
-    timeout = 1000000;
-    while (!(SPI0_SR & SPI_SR_RN) && --timeout) {;}
-    if (timeout == 0) return 0xFF;
-    junk = (uint8_t)SPI0_RXD;
+    SPI_CR = (SPI_CR & ~(0xF << 10)) | (SS_NONE << 10);
 
-    timeout = 1000000;
-    while (!(SPI0_SR & SPI_SR_RN) && --timeout) {;}
-    if (timeout == 0) return 0xFF;
-    data = (uint8_t)SPI0_RXD;
-
-    SPI0_CR = (SPI0_CR & ~SPI_CR_SS_MASK) | SPI_CR_SS_NONE;
-
-    (void)junk;
     return data;
 }
 
-uint8_t acc_gyro_read(uint8_t address)
-{
-    /* bit7 = read, bits6:0 = address */
-    uint8_t cmd = (uint8_t)(0x80U | (address & 0x7FU));
-    return spi_read_two_byte_transaction(cmd, SPI_CR_SS0);
+uint32_t acc_gyro_read(uint32_t address) {
+    return spi_read16(SS_AG, address);
 }
 
-uint8_t mag_read(uint8_t address)
-{
-    /* bit7 = read, bit6 = auto-increment (0 here), bits5:0 = address */
-    uint8_t cmd = (uint8_t)(0x80U | (address & 0x3FU));
-    return spi_read_two_byte_transaction(cmd, SPI_CR_SS1);
+uint32_t mag_read(uint32_t address) {
+    return spi_read16(SS_MAG, address);
+}
+
+/*-------------------------------UART Stuff-----------------------------*/
+
+void configure_uart1(){
+    uint32_t *datapath;
+
+    datapath = (uint32_t *)UART1_MR;
+    *datapath = 0x00000020;
+
+    datapath = (uint32_t *)UART1_CR;
+    *datapath = (1 <<8 ) | (1 << 9);
+    *datapath = (1 << 4) | (1 << 2) | (1 <<0);
+
+    datapath = (uint32_t *)UART1_BAUDGEN;
+    *datapath = 124;
+
+    datapath = (uint32_t *)UART1_BAUDDIV;
+    *datapath = 6;
+}
+
+char uart1_getchar(){
+    uint32_t *datapath;
+    uint32_t temp_data;
+
+    do{
+        datapath = (uint32_t *)UART1_SR;
+        temp_data = *datapath;
+        temp_data &= 2;
+    } while(temp_data == 2);
+
+    datapath = (uint32_t *)UART1_FIFO;
+    temp_data = *datapath;
+    return temp_data;
+}
+
+void uart1_sendchar(char data){
+    uint32_t *datapath;
+    uint32_t temp_data;
+
+    do {
+        datapath = (uint32_t *)UART1_SR;
+        temp_data = *datapath;
+        temp_data &= 16;
+    } while(temp_data == 16);
+
+    datapath = (uint32_t *)UART1_FIFO;
+    *datapath = data;
+}
+
+void uart1_sendstr(char buffer[]){
+    int i = 0;
+    while(buffer[i] != '\0'){
+        uart1_sendchar(buffer[i]);
+        i++;
+    }
+}
+
+int uart1_getln(char buffer[], int max){
+    int i = 0;
+    char ch;
+    while(i < max - 1){
+        ch = uart1_getchar();
+        if(ch == '\n' || ch == '\r'){
+            break;
+        }
+        buffer[i++] = ch;
+    }
+    buffer[i] = '\0';
+    return i;
+}
+
+void uart1_sendint(int value) {
+    char buffer[12];
+    int i = 0;
+
+    if (value == 0) {
+        uart1_sendchar('0');
+        return;
+    }
+    
+    if (value < 0) {
+        uart1_sendchar('-');
+        value = -value;
+    }
+
+    while (value > 0 && i < sizeof(buffer)) {
+        buffer[i++] = '0' + (value % 10);
+        value /= 10;
+    }
+
+    while (i > 0) {
+        uart1_sendchar(buffer[--i]);
+    }
 }

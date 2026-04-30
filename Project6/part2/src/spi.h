@@ -1,0 +1,41 @@
+#ifndef SPI_H
+#define SPI_H
+
+#include <stdint.h>
+
+#define SPI0_BASE       0xE0006000
+#define SPI_CR          (*(volatile uint32_t *)(SPI0_BASE + 0x00))//configuration register
+#define SPI_SR          (*(volatile uint32_t *)(SPI0_BASE + 0x04))//interrupt status register (FIFO)
+#define SPI_IER         (*(volatile uint32_t *)(SPI0_BASE + 0x08))//enable interrupt sources
+#define SPI_IDR         (*(volatile uint32_t *)(SPI0_BASE + 0x0C))//disable interrupt sources
+#define SPI_IMR         (*(volatile uint32_t *)(SPI0_BASE + 0x10))//mask bits for interrupt sources
+#define SPI_ER          (*(volatile uint32_t *)(SPI0_BASE + 0x14))//spi controller eable
+#define SPI_DR          (*(volatile uint32_t *)(SPI0_BASE + 0x18))//set various intra-frame delays
+#define SPI_TXD         (*(volatile uint32_t *)(SPI0_BASE + 0x1C))//spi write data (fifo)
+#define SPI_RXD         (*(volatile uint32_t *)(SPI0_BASE + 0x20))//spi read data (fifo)
+
+// reset the spi module by writing to zynq's system level control registers block
+//SLCRs are protected registers that can only be accessed after they are "unlocked"
+#define SLCR_LOCK       (*(volatile uint32_t *)0xF8000004)
+#define SLCR_UNLOCK     (*(volatile uint32_t *)0xF8000008)
+#define SLCR_SPI_RST    (*(volatile uint32_t *)0xF800021C)
+#define UNLOCK_KEY      0xDF0D
+#define LOCK_KEY        0x767B
+
+// LSM9DS1 register
+#define WHO_AM_I_REG    0x0F //ID register returns 0x68
+
+// Slave select encodings for SPI_CR[13:10]
+#define SS_NONE  0xF
+#define SS_AG    0xE   // accelerometer/gyro (SS0)
+#define SS_MAG   0xD   // magnetometer (SS1)
+
+static inline void wait_tx_not_full(void) {
+    while ((SPI_SR & (1 << 2)) == 0);   // TN bit
+}
+
+static inline void wait_rx_not_empty(void) {
+    while ((SPI_SR & (1 << 4)) == 0);   // RN bit
+}
+
+#endif
